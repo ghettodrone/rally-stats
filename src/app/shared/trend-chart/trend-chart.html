@@ -1,0 +1,48 @@
+@let v = view();
+<div class="chart" role="img" aria-label="Wins and losses per month">
+  <div class="axis num" aria-hidden="true">
+    <span>{{ v.max }}</span>
+    <span class="axis-label">Wins</span>
+    <span class="zero">0</span>
+    <span class="axis-label">Losses</span>
+    <span>{{ v.max }}</span>
+  </div>
+
+  <div class="plot">
+    @for (c of v.columns; track c.month) {
+      <div class="col" tabindex="0" [attr.aria-label]="c.fullLabel + ': ' + c.wins + ' wins, ' + c.losses + ' losses'">
+        <div class="half up">
+          @if (c.wins) {
+            <div class="bar win" [style.height.%]="c.winPct"></div>
+          }
+        </div>
+        <div class="half down">
+          @if (c.losses) {
+            <div class="bar loss" [style.height.%]="c.lossPct"></div>
+          }
+        </div>
+        <div class="month">
+          {{ c.label }}
+          @if (c.year) {
+            <span class="year num">{{ c.year }}</span>
+          }
+        </div>
+        <div class="tip num" role="tooltip" [class]="c.tipAlign">
+          <strong>{{ c.fullLabel }}</strong>
+          @if (c.wins + c.losses) {
+            <span><i class="sw win"></i>{{ c.wins }} won</span>
+            <span><i class="sw loss"></i>{{ c.losses }} lost</span>
+          } @else {
+            <span>No matches</span>
+          }
+          <span class="tip-muted">Career win rate {{ c.cumulativeWinRate }}%</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="legend" aria-hidden="true">
+  <span><i class="sw win"></i>Wins (above line)</span>
+  <span><i class="sw loss"></i>Losses (below line)</span>
+</div>

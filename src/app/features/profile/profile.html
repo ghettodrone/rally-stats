@@ -1,0 +1,106 @@
+@let p = player();
+@let s = stats();
+<div class="rs-page">
+  <header class="rs-page-header">
+    <div>
+      <h1>Profile</h1>
+      <p class="rs-subtitle">Your player details and saved data</p>
+    </div>
+  </header>
+
+  <div class="stack">
+    <section class="rs-panel">
+      <div class="rs-panel-head">
+        <h2>Player</h2>
+        @if (!editing()) {
+          <button pButton type="button" size="small" severity="secondary" [outlined]="true" (click)="startEdit()">
+            <i class="pi pi-pencil"></i>Edit
+          </button>
+        }
+      </div>
+
+      @if (editing()) {
+        <form class="edit" [formGroup]="form" (ngSubmit)="save()" novalidate>
+          <div class="rs-field">
+            <label for="name">Name</label>
+            <input pInputText id="name" formControlName="name" autocomplete="name" [invalid]="!!nameError()" />
+            @if (nameError(); as err) {
+              <small class="rs-error">{{ err }}</small>
+            }
+          </div>
+          <div class="rs-field">
+            <label for="preferred">Preferred category</label>
+            <p-select
+              inputId="preferred"
+              formControlName="preferredFormat"
+              [options]="formats"
+              optionLabel="label"
+              optionValue="value"
+            />
+            <small class="rs-hint">Pre-selected when you add a match</small>
+          </div>
+          <div class="edit-actions">
+            <button pButton type="button" severity="secondary" [text]="true" (click)="cancelEdit()">Cancel</button>
+            <button pButton type="submit">Save profile</button>
+          </div>
+        </form>
+      } @else {
+        <div class="identity">
+          <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+          <div>
+            <p class="name">{{ p.name }}</p>
+            <p class="rs-muted">{{ preferredLabel() }} player · since {{ p.createdAt | date: 'MMMM y' }}</p>
+          </div>
+        </div>
+        <dl class="facts num">
+          <div>
+            <dt>Total matches</dt>
+            <dd>{{ s.total }}</dd>
+          </div>
+          <div>
+            <dt>Career win rate</dt>
+            <dd>{{ s.winRate === null ? '—' : s.winRate + '%' }}</dd>
+          </div>
+          <div>
+            <dt>{{ preferredLabel() }} win rate</dt>
+            <dd>
+              {{ preferredStats().winRate === null ? '—' : preferredStats().winRate + '%' }}
+              <span class="rs-muted">({{ preferredStats().total }})</span>
+            </dd>
+          </div>
+          <div>
+            <dt>Profile created</dt>
+            <dd>{{ p.createdAt | date: 'd MMM y' }}</dd>
+          </div>
+        </dl>
+      }
+    </section>
+
+    <section class="rs-panel">
+      <div class="rs-panel-head">
+        <h2>Data</h2>
+      </div>
+      <div class="data">
+        <p class="rs-muted">
+          Matches are stored in this browser only. Clearing site data or switching device starts you from scratch.
+        </p>
+        <div class="data-row">
+          <div>
+            <p class="data-title">Sample matches</p>
+            <p class="rs-hint">Replace your matches with a realistic example season.</p>
+          </div>
+          <button pButton type="button" severity="secondary" [outlined]="true" (click)="restoreSample()">Load sample data</button>
+        </div>
+        <div class="data-row">
+          <div>
+            <p class="data-title">Delete all matches</p>
+            <p class="rs-hint">Removes every recorded match. Your profile is kept.</p>
+          </div>
+          <button pButton type="button" severity="danger" [outlined]="true" [disabled]="s.total === 0" (click)="clearMatches()">
+            Delete all
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+@let s = stats();
+<div class="rs-page">
+  <header class="rs-page-header">
+    <div>
+      <h1>Overview</h1>
+      <p class="rs-subtitle">{{ firstName() }}’s results across all formats</p>
+    </div>
+  </header>
+
+  @if (s.total === 0) {
+    <section class="rs-panel">
+      <app-empty-state
+        title="Record your first match"
+        message="Your totals, win rate and monthly trend appear here once you log a match."
+      >
+        <a pButton routerLink="/matches/new">Add a match</a>
+        <app-sample-data-actions />
+      </app-empty-state>
+    </section>
+  } @else {
+    <section class="rs-panel stats" aria-label="Career totals">
+      <div class="stat stat-main">
+        <span class="rs-eyebrow">Win rate</span>
+        <span class="value num">{{ s.winRate }}<small>%</small></span>
+        <div class="meter" aria-hidden="true">
+          <span class="meter-win" [style.width.%]="s.winRate"></span>
+        </div>
+      </div>
+      <div class="stat">
+        <span class="rs-eyebrow">Matches</span>
+        <span class="value num">{{ s.total }}</span>
+      </div>
+      <div class="stat">
+        <span class="rs-eyebrow">Wins</span>
+        <span class="value num win">{{ s.wins }}</span>
+      </div>
+      <div class="stat">
+        <span class="rs-eyebrow">Losses</span>
+        <span class="value num loss">{{ s.losses }}</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="rs-panel">
+        <div class="rs-panel-head">
+          <h2>Results by month</h2>
+          <span class="rs-muted">Last 12 months</span>
+        </div>
+        <div class="chart-body">
+          <app-trend-chart [points]="trend()" />
+        </div>
+      </section>
+
+      <section class="rs-panel">
+        <div class="rs-panel-head">
+          <h2>Recent matches</h2>
+          <a class="rs-link" routerLink="/matches">View all</a>
+        </div>
+        <ul class="recent">
+          @for (m of recent(); track m.id) {
+            <li>
+              <a [routerLink]="['/matches', m.id]" class="recent-row">
+                <app-result-badge [result]="m.result" [compact]="true" />
+                <span class="who">
+                  <span class="opponent">{{ m.opponent }}</span>
+                  <span class="meta">{{ m.date | date: 'd MMM' }} · {{ m.formatLabel }}</span>
+                </span>
+                <app-score-line [games]="m.games" />
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
+  }
+</div>

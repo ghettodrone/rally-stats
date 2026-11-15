@@ -20,7 +20,9 @@ interface NavItem {
 })
 export class Shell {
   protected readonly nav: NavItem[] = [
+    { label: 'Overview', path: '/', icon: 'pi pi-chart-bar', exact: true },
     { label: 'Match History', path: '/matches', icon: 'pi pi-list', exact: true },
+    { label: 'Profile', path: '/profile', icon: 'pi pi-user', exact: true },
   ];
 
   constructor() {

@@ -8,9 +8,17 @@ export const routes: Routes = [
       import('./features/history/history').then((m) => m.History),
   },
   {
+    path: 'profile',
+    title: 'Profile · RallyStats',
+    loadComponent: () =>
+      import('./features/profile/profile').then((m) => m.Profile),
+  },
+  {
     path: '',
-    redirectTo: 'matches',
     pathMatch: 'full',
+    title: 'Overview ',
+    loadComponent: () => 
+      import('./features/overview/overview').then((m) => m.Overview),
   },
   {
     path: '**',

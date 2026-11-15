@@ -1,7 +1,6 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
-/** Aura, re-tuned to the RallyStats palette: court green, warm neutrals, tighter corners. */
 export const RallyPreset = definePreset(Aura, {
   primitive: {
     borderRadius: { none: '0', xs: '2px', sm: '3px', md: '5px', lg: '6px', xl: '8px' },

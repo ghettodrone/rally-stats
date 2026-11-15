@@ -1,1 +1,212 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'primeicons/primeicons.css';
+@import "@phosphor-icons/web/regular";
+
+/* PrimeNG lives in the "primeng" layer; unlayered rules below win over it,
+   and the reset layer sits underneath both. */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+  a {
+    color: inherit;
+  }
+}
+
+:root {
+  --rs-green: #15803d;
+  --rs-green-dark: #14532d;
+  --rs-green-tint: #ecf5ee;
+  --rs-lime: #a3e635;
+  --rs-bg: #f5f7f2;
+  --rs-surface: #ffffff;
+  --rs-text: #17231b;
+  --rs-text-2: #6b776d;
+  --rs-border: #e2e8e0;
+  --rs-border-strong: #cbd3c8;
+  --rs-win: #15803d;
+  --rs-loss: #dc5555;
+  --rs-loss-tint: #fcecec;
+  --rs-radius: 6px;
+  --rs-shadow: 0 1px 2px rgb(23 35 27 / 0.04);
+  --rs-content-width: 1080px;
+  --rs-sidebar-width: 216px;
+}
+
+body {
+  background: var(--rs-bg);
+  color: var(--rs-text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+/* ---------- Shared page primitives ---------- */
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.rs-page {
+  max-width: var(--rs-content-width);
+  margin: 0 auto;
+  padding: 32px 32px 48px;
+
+  @media (max-width: 768px) {
+    padding: 20px 16px 96px;
+  }
+}
+
+.rs-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+  .rs-subtitle {
+    color: var(--rs-text-2);
+    margin-top: 2px;
+  }
+}
+
+.rs-panel {
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-border);
+  border-radius: var(--rs-radius);
+  box-shadow: var(--rs-shadow);
+}
+
+.rs-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--rs-border);
+
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.rs-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rs-text-2);
+}
+
+.rs-link {
+  color: var(--rs-green);
+  font-weight: 500;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.rs-muted {
+  color: var(--rs-text-2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Forms ---------- */
+
+.rs-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  > label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .rs-optional {
+    color: var(--rs-text-2);
+    font-weight: 400;
+  }
+}
+
+.rs-error {
+  color: #b42318;
+  font-size: 12.5px;
+}
+
+.rs-hint {
+  color: var(--rs-text-2);
+  font-size: 12.5px;
+}
+
+/* ---------- PrimeNG adjustments ---------- */
+
+.p-button {
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+}
+
+.p-selectbutton .p-togglebutton {
+  font-size: 13px;
+}
+
+.p-datatable {
+  font-size: 13.5px;
+
+  .p-datatable-thead > tr > th {
+    background: var(--rs-bg);
+    color: var(--rs-text-2);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    border-color: var(--rs-border);
+  }
+  .p-datatable-tbody > tr > td {
+    padding: 11px 16px;
+    border-color: var(--rs-border);
+  }
+  .p-datatable-tbody > tr.rs-row-link {
+    cursor: pointer;
+    &:hover {
+      background: #f8faf6;
+    }
+  }
+}
+
+.p-toast {
+  .p-toast-message {
+    border-radius: var(--rs-radius);
+  }
+}

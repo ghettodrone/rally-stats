@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
+import { MatchService } from '../../core/services/match.service';
 
 interface NavItem {
   label: string;
@@ -19,25 +20,22 @@ interface NavItem {
 })
 export class Shell {
   protected readonly nav: NavItem[] = [
-    { label: 'Overview', path: '/', icon: 'pi pi-chart-bar', exact: true },
     { label: 'Match History', path: '/matches', icon: 'pi pi-list', exact: true },
-    { label: 'Add Match', path: '/matches/new', icon: 'pi pi-plus', exact: true },
-    { label: 'Profile', path: '/profile', icon: 'pi pi-user', exact: true },
   ];
 
   constructor() {
-    //const matches = inject(MatchService);
+    const matches = inject(MatchService);
     const messages = inject(MessageService);
     effect(() => {
-      // const error = matches.loadError();
-      // if (error) {
-      //   messages.add({
-      //     severity: 'error',
-      //     summary: 'Saved data could not be read',
-      //     detail: `${error}. You can clear it from your profile page.`,
-      //     sticky: true,
-      //   });
-      // }
+      const error = matches.loadError();
+      if (error) {
+        messages.add({
+          severity: 'error',
+          summary: 'Saved data could not be read',
+          detail: `${error}. You can clear it from your profile page.`,
+          sticky: true,
+        });
+      }
     });
   }
 }

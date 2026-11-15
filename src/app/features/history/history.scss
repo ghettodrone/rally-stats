@@ -1,0 +1,89 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--rs-border);
+}
+
+.search {
+  flex: 1 1 220px;
+  max-width: 300px;
+  input {
+    width: 100%;
+  }
+}
+
+.format {
+  width: 180px;
+}
+
+.summary {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--rs-text-2);
+}
+
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--rs-text);
+  cursor: pointer;
+  i {
+    font-size: 10px;
+  }
+}
+
+.col-date {
+  width: 120px;
+  white-space: nowrap;
+}
+
+.col-result {
+  width: 90px;
+  text-align: right !important;
+}
+
+.opponent {
+  display: block;
+  font-weight: 600;
+}
+
+.tournament {
+  display: block;
+  font-size: 12px;
+  color: var(--rs-text-2);
+}
+
+@media (max-width: 720px) {
+  .search,
+  .format {
+    flex: 1 1 100%;
+    max-width: none;
+    width: 100%;
+  }
+  .summary {
+    margin-left: 0;
+  }
+  .hide-sm {
+    display: none;
+  }
+  .col-date {
+    width: auto;
+  }
+  :host ::ng-deep .history-table {
+    th,
+    td {
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+  }
+}

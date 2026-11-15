@@ -1,0 +1,121 @@
+<div class="rs-page">
+  <header class="rs-page-header">
+    <!-- <div>
+      <h1>Match history</h1>
+      <p class="rs-subtitle num">
+        @if (totalCount()) {
+          {{ totalCount() }} {{ totalCount() === 1 ? 'match' : 'matches' }} recorded
+        } @else {
+          No matches recorded yet
+        }
+      </p>
+    </div>
+    <a pButton routerLink="/matches/new"><i class="pi pi-plus"></i>Add match</a> -->
+  </header>
+
+  @if (totalCount() === 0) {
+    <section class="rs-panel">
+      <app-empty-state title="No matches yet" message="Every match you record is listed here, with filters by format and result.">
+        <a pButton routerLink="/matches/new">Add a match</a>
+        <app-sample-data-actions />
+      </app-empty-state>
+    </section>
+  } @else {
+    <section class="rs-panel">
+      <div class="toolbar">
+        <p-iconfield class="search">
+          <p-inputicon class="pi pi-search" />
+          <input
+            pInputText
+            type="search"
+            placeholder="Search opponent"
+            aria-label="Search by opponent name"
+            [ngModel]="filters.query()"
+            (ngModelChange)="filters.query.set($event)"
+          />
+        </p-iconfield>
+
+        <p-select
+          class="format"
+          [options]="formatOptions"
+          optionLabel="label"
+          optionValue="value"
+          ariaLabel="Filter by format"
+          [ngModel]="filters.format()"
+          (ngModelChange)="setFormat($event)"
+        />
+
+        <p-selectbutton
+          [options]="resultOptions"
+          optionLabel="label"
+          optionValue="value"
+          [allowEmpty]="false"
+          ariaLabelledBy="result-filter-label"
+          [ngModel]="filters.result()"
+          (ngModelChange)="setResult($event)"
+        />
+        <span id="result-filter-label" class="sr-only">Filter by result</span>
+
+        @if (filters.active()) {
+          <span class="summary num">
+            {{ summary().count }} shown · {{ summary().wins }}W {{ summary().losses }}L
+          </span>
+        }
+      </div>
+
+      <p-table
+        [value]="rows()"
+        dataKey="id"
+        [paginator]="rows().length > pageSize"
+        [rows]="pageSize"
+        [alwaysShowPaginator]="false"
+        styleClass="history-table"
+      >
+        <ng-template #header>
+          <tr>
+            <th class="col-date">
+              <button
+                type="button"
+                class="sort"
+                (click)="toggleSort()"
+                [attr.aria-label]="'Sort by date, currently ' + (filters.sort() === 'desc' ? 'newest first' : 'oldest first')"
+              >
+                Date
+                <i class="pi" [class.pi-arrow-down]="filters.sort() === 'desc'" [class.pi-arrow-up]="filters.sort() === 'asc'"></i>
+              </button>
+            </th>
+            <th>Opponent</th>
+            <th class="hide-sm">Format</th>
+            <th>Score</th>
+            <th class="col-result">Result</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-m>
+          <tr class="rs-row-link" tabindex="0">
+            <td class="col-date num">{{ m.date | date: 'd MMM y' }}</td>
+            <td>
+              <span class="opponent">{{ m.opponent }}</span>
+              @if (m.tournament) {
+                <span class="tournament">{{ m.tournament }}</span>
+              }
+            </td>
+            <td class="hide-sm">{{ m.formatLabel }}</td>
+            <td><app-score-line [games]="m.games" /></td>
+            <td class="col-result"><app-result-badge [result]="m.result" /></td>
+          </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="5">
+              <app-empty-state title="No matches match these filters" message="Try a different opponent name, format or result.">
+                <button pButton type="button" severity="secondary" [outlined]="true" (click)="filters.clear()">Clear filters</button>
+              </app-empty-state>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </section>
+  }
+</div>

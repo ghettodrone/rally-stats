@@ -5,6 +5,7 @@ import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { PRIMEUI_LICENSE_KEY } from './theme/primeui-license';
 import { RallyPreset } from './theme/rally-preset';
+import { LocalStorageMatchRepository, MatchRepository } from './core/data/match.repository';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +28,6 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     ConfirmationService,
-   //1
+   { provide: MatchRepository, useClass: LocalStorageMatchRepository },
   ],
 };

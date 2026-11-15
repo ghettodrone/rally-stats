@@ -20,9 +20,11 @@
     "@angular/platform-server": "^22.2.0",
     "@angular/router": "^22.2.0",
     "@angular/ssr": "^22.2.7",
+    "@phosphor-icons/web": "^2.1.2",
     "@primeuix/themes": "^3.1.1",
     "@uirouter/angular": "^22.0.0",
     "express": "^5.1.0",
+    "primeicons": "^8.0.2",
     "primeng": "^22.1.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

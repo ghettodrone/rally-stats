@@ -63,6 +63,14 @@
   color: var(--rs-text-2);
 }
 
+.country-flag {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
 @media (max-width: 720px) {
   .search,
   .format {

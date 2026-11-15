@@ -14,6 +14,7 @@ export interface Match {
   date: string;
   opponent: string;
   format: MatchFormat;
+  country: string;
   result: MatchResult;
   tournament: string | null;
   games: GameScore[];
@@ -22,7 +23,7 @@ export interface Match {
 }
 
 /** Fields the user supplies; id, result and timestamps are managed by the service. */
-export type MatchInput = Pick<Match, 'date' | 'opponent' | 'format' | 'tournament' | 'games'>;
+export type MatchInput = Pick<Match, 'date' | 'opponent' | 'format' | 'tournament' | 'games' | 'country'>;
 
 export interface MatchFormatOption {
   value: MatchFormat;

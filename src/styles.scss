@@ -1,5 +1,6 @@
 @use 'primeicons/primeicons.css';
 @import "@phosphor-icons/web/regular";
+@import "primeflex/primeflex.css";
 
 /* PrimeNG lives in the "primeng" layer; unlayered rules below win over it,
    and the reset layer sits underneath both. */

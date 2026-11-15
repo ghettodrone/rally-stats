@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
+import { TooltipModule } from 'primeng/tooltip';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { SelectButton } from 'primeng/selectbutton';
@@ -31,6 +32,7 @@ const PAGE_SIZE = 15;
     IconField,
     InputIcon,
     InputText,
+    TooltipModule,
     Select,
     SelectButton,
     TableModule,
@@ -42,11 +44,13 @@ const PAGE_SIZE = 15;
   templateUrl: './history.html',
   styleUrl: './history.scss',
 })
-export class History {
+export class History implements OnInit{
   private readonly matchService = inject(MatchService);
   private readonly router = inject(Router);
   /** Filters live in a root service so they survive visiting a match and coming back. */
   protected readonly filters = inject(HistoryFilters);
+
+  countries: any[] = [];
 
   protected readonly pageSize = PAGE_SIZE;
   protected readonly formatOptions = [{ value: null, label: 'All formats' }, ...MATCH_FORMATS];
@@ -74,6 +78,10 @@ export class History {
     // matches() is newest first.
     return this.filters.sort() === 'asc' ? list.reverse() : list;
   });
+
+  ngOnInit(): void {
+    
+  }
 
   protected readonly summary = computed(() => {
     const rows = this.rows();

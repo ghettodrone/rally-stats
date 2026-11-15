@@ -91,18 +91,37 @@
           </tr>
         </ng-template>
 
-        <ng-template #body let-m>
+        <ng-template #body let-item>
           <tr class="rs-row-link" tabindex="0">
-            <td class="col-date num">{{ m.date | date: 'd MMM y' }}</td>
+            <td class="col-date num">{{ item.date | date: 'd MMM y' }}</td>
             <td>
-              <span class="opponent">{{ m.opponent }}</span>
-              @if (m.tournament) {
-                <span class="tournament">{{ m.tournament }}</span>
+              <span class="opponent">{{ item.opponent }}</span>
+              @if (item.tournament) {
+                <span class="tournament">{{ item.tournament }}</span>
               }
             </td>
-            <td class="hide-sm">{{ m.formatLabel }}</td>
-            <td><app-score-line [games]="m.games" /></td>
-            <td class="col-result"><app-result-badge [result]="m.result" /></td>
+            <td>
+              <div class="flex align-items-center">
+                <div>
+                  {{ item.formatLabel }}
+                </div>
+                <div>
+                  @switch (item.format) {
+                    @case ('singles') {
+                      <i class="ph ph-person text-orange-500 ml-2"></i>
+                    }
+                    @default {
+                      <div class="flex">
+                          <i class="ph ph-person text-orange-500 ml-2"></i>
+                          <i class="ph ph-person text-orange-500"></i>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+            </td>
+            <td><app-score-line [games]="item.games" /></td>
+            <td class="col-result"><app-result-badge [result]="item.result" /></td>
           </tr>
         </ng-template>
 

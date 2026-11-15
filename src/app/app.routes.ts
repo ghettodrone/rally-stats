@@ -4,7 +4,16 @@ export const routes: Routes = [
   {
     path: 'matches',
     title: 'Match history · RallyStats',
-    loadComponent: () => import('./features/history/history').then((m) => m.History),
+    loadComponent: () =>
+      import('./features/history/history').then((m) => m.History),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '',
+    redirectTo: 'matches',
+    pathMatch: 'full',
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

@@ -1,11 +1,32 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { PRIMEUI_LICENSE_KEY } from './theme/primeui-license';
+import { RallyPreset } from './theme/rally-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration()
-  ]
+    provideRouter(
+      routes,
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
+    ),
+    providePrimeNG({
+      ripple: false,
+      license: PRIMEUI_LICENSE_KEY,
+      theme: {
+        preset: RallyPreset,
+        options: {
+          darkModeSelector: '.rs-dark',
+          cssLayer: { name: 'primeng', order: 'reset, primeng' },
+        },
+      },
+    }),
+    MessageService,
+    ConfirmationService,
+   //1
+  ],
 };

@@ -129,7 +129,6 @@ function normalize(input: MatchInput): MatchInput {
   const tournament = input.tournament?.trim();
   return {
     date: input.date,
-    country: input.country,
     opponent: input.opponent.trim(),
     format: input.format,
     tournament: tournament ? tournament : null,

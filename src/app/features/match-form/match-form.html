@@ -1,0 +1,159 @@
+<div class="rs-page">
+  @if (notFound()) {
+    <section class="rs-panel">
+      <app-empty-state title="Match not found" message="It may have been deleted. Go back to your history to pick another match.">
+        <a pButton routerLink="/matches">Back to history</a>
+      </app-empty-state>
+    </section>
+  } @else {
+    <header class="rs-page-header">
+      <div>
+        <h1>{{ editing() ? 'Edit match' : 'Add match' }}</h1>
+        <p class="rs-subtitle">Best of three games, 21-point rally scoring</p>
+      </div>
+    </header>
+
+    <form class="rs-panel form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <section class="section">
+        <h2 class="rs-eyebrow">Match</h2>
+        <div class="fields">
+          <div class="rs-field span-2">
+            <label for="opponent">Opponent</label>
+            <input
+              pInputText
+              id="opponent"
+              formControlName="opponent"
+              autocomplete="off"
+              placeholder="e.g. Kenji Mori, or Lee / Chan for doubles"
+              [invalid]="showError('opponent')"
+            />
+            @if (showError('opponent')) {
+              <small class="rs-error">
+                {{ form.controls.opponent.hasError('maxlength') ? 'Keep it under 60 characters' : 'Enter your opponent’s name' }}
+              </small>
+            }
+          </div>
+
+          <div class="rs-field">
+            <label for="date">Date</label>
+            <p-datepicker
+              inputId="date"
+              formControlName="date"
+              dateFormat="d M yy"
+              [maxDate]="today"
+              [required]="true"
+              [showIcon]="true"
+              iconDisplay="input"
+              appendTo="body"
+              [invalid]="showError('date')"
+            />
+            @if (showError('date')) {
+              <small class="rs-error">
+                {{ form.controls.date.hasError('future') ? 'The date can’t be in the future' : 'Pick the match date' }}
+              </small>
+            }
+          </div>
+
+          <div class="rs-field">
+            <label for="tournament">Tournament <span class="rs-optional">(optional)</span></label>
+            <input pInputText id="tournament" formControlName="tournament" autocomplete="off" placeholder="e.g. City League — Round 9" />
+            @if (showError('tournament')) {
+              <small class="rs-error">Keep it under 80 characters</small>
+            }
+          </div>
+
+          <div class="rs-field span-2">
+            <label id="format-label">Format</label>
+            <p-selectbutton
+              class="formats"
+              formControlName="format"
+              [options]="formats"
+              optionLabel="label"
+              optionValue="value"
+              [allowEmpty]="false"
+              ariaLabelledBy="format-label"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="rs-eyebrow">Score</h2>
+
+        <div class="games" formArrayName="games" role="group" aria-label="Game scores">
+          <div class="games-head" aria-hidden="true">
+            <span></span>
+            <span>You</span>
+            <span></span>
+            <span>Opp.</span>
+          </div>
+
+          @for (row of form.controls.games.controls; track $index; let i = $index) {
+            <div class="game" [formGroupName]="i" [class.disabled]="row.disabled">
+              <label class="game-label" [for]="'g' + i + 'p'">Game {{ i + 1 }}</label>
+              <input
+                pInputText
+                class="points num"
+                type="number"
+                inputmode="numeric"
+                [required]="true"
+                min="0"
+                [max]="maxPoints"
+                [id]="'g' + i + 'p'"
+                formControlName="player"
+                [attr.aria-label]="'Game ' + (i + 1) + ', your points'"
+                [invalid]="!!gameMessage(i)"
+              />
+              <span class="dash" aria-hidden="true">–</span>
+              <input
+                pInputText
+                class="points num"
+                type="number"
+                inputmode="numeric"
+                min="0"
+                [required]="true"
+                [max]="maxPoints"
+                formControlName="opponent"
+                [attr.aria-label]="'Game ' + (i + 1) + ', opponent points'"
+                [invalid]="!!gameMessage(i)"
+              />
+              <span class="game-note">
+                @if (gameMessage(i); as msg) {
+                  <small class="rs-error">{{ msg }}</small>
+                } @else if (i === 2 && row.disabled) {
+                  <small class="rs-hint">Only played at one game all</small>
+                } @else if (i === 2) {
+                  <small class="rs-hint">Deciding game</small>
+                }
+              </span>
+            </div>
+          }
+        </div>
+
+        @if (matchMessage(); as msg) {
+          <p class="rs-error match-error" role="alert">{{ msg }}</p>
+        }
+        <p class="rs-hint rules">
+          First to 21. From 20–20 a two-point lead is needed; at 29–29 the next point wins 30–29.
+        </p>
+      </section>
+
+      <footer class="footer">
+        <div class="outcome" aria-live="polite">
+          @if (preview(); as p) {
+            <app-result-badge [result]="p.result" />
+            <span class="num">{{ p.won }}–{{ p.lost }} in games</span>
+          } @else {
+            <span class="rs-muted">The result is worked out from the scores</span>
+          }
+        </div>
+        <div class="actions">
+          <a pButton [routerLink]="cancelLink()" severity="secondary" [text]="true">Cancel</a>
+          <button pButton type="submit" [loading]="saving()">
+            {{ editing() ? 'Save changes' : 'Save match' }}
+          </button>
+        </div>
+      </footer>
+    </form>
+  }
+</div>

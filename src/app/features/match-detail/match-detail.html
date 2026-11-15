@@ -1,0 +1,104 @@
+<div class="rs-page">
+  <a class="back rs-link" routerLink="/matches"><i class="pi pi-arrow-left"></i>Match history</a>
+
+  @if (view(); as m) {
+    <header class="rs-page-header">
+      <div>
+        <p class="rs-eyebrow">{{ m.formatLabel }}{{ m.tournament ? ' · ' + m.tournament : '' }}</p>
+        <h1>vs {{ m.opponent }}</h1>
+        <p class="rs-subtitle">{{ m.date | date: 'EEEE d MMMM y' }}</p>
+      </div>
+      <div class="actions">
+        <a pButton [routerLink]="['/matches', m.id, 'edit']" severity="secondary" [outlined]="true">
+          <i class="pi pi-pencil"></i>Edit
+        </a>
+        <button pButton type="button" severity="danger" [text]="true" (click)="remove()">
+          <i class="pi pi-trash"></i>Delete
+        </button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="rs-panel scoreboard" aria-label="Scoreboard">
+        <div class="board-head">
+          <app-result-badge [result]="m.result" />
+          <span class="games-score num">{{ m.tally.won }}–{{ m.tally.lost }}</span>
+          <span class="rs-muted">in games</span>
+        </div>
+
+        <table class="board num">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Side</span></th>
+              @for (g of m.games; track g.number) {
+                <th scope="col">Game {{ g.number }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="side">{{ playerName() }}</th>
+              @for (g of m.games; track g.number) {
+                <td [class.won]="g.won">{{ g.player }}</td>
+              }
+            </tr>
+            <tr>
+              <th scope="row" class="side">{{ m.opponent }}</th>
+              @for (g of m.games; track g.number) {
+                <td [class.won]="!g.won">{{ g.opponent }}</td>
+              }
+            </tr>
+          </tbody>
+        </table>
+
+        @if (m.notes.length) {
+          <ul class="notes num">
+            @for (note of m.notes; track note) {
+              <li>{{ note }}</li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section class="rs-panel info" aria-label="Match information">
+        <dl>
+          <div>
+            <dt>Opponent</dt>
+            <dd>{{ m.opponent }}</dd>
+          </div>
+          <div>
+            <dt>Date</dt>
+            <dd>{{ m.date | date: 'd MMM y' }}</dd>
+          </div>
+          <div>
+            <dt>Format</dt>
+            <dd>{{ m.formatLabel }}</dd>
+          </div>
+          <div>
+            <dt>Competition</dt>
+            <dd>{{ m.tournament || 'Not recorded' }}</dd>
+          </div>
+          <div>
+            <dt>Result</dt>
+            <dd>{{ m.result === 'win' ? 'Win' : 'Loss' }}, {{ m.tally.won }}–{{ m.tally.lost }}</dd>
+          </div>
+          <div>
+            <dt>Recorded</dt>
+            <dd>
+              {{ m.createdAt | date: 'd MMM y' }}
+              @if (m.edited) {
+                <span class="rs-muted">· edited {{ m.updatedAt | date: 'd MMM y' }}</span>
+              }
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  } @else {
+    <section class="rs-panel">
+      <app-empty-state title="Match not found" message="It may have been deleted. Pick another match from your history.">
+        <a pButton routerLink="/matches">Back to history</a>
+      </app-empty-state>
+    </section>
+  }
+</div>

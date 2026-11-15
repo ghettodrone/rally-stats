@@ -14,6 +14,24 @@ export const routes: Routes = [
       import('./features/profile/profile').then((m) => m.Profile),
   },
   {
+    path: 'matches/new',
+    title: 'Add match · RallyStats',
+    loadComponent: () =>
+      import('./features/match-form/match-form').then((m) => m.MatchForm),
+  },
+  {
+    path: 'matches/:id',
+    title: 'Match · RallyStats',
+    loadComponent: () =>
+      import('./features/match-detail/match-detail').then((m) => m.MatchDetail),
+  },
+  {
+    path: 'matches/:id/edit',
+    title: 'Edit match · RallyStats',
+    loadComponent: () =>
+      import('./features/match-form/match-form').then((m) => m.MatchForm),
+  },
+  {
     path: '',
     pathMatch: 'full',
     title: 'Overview ',

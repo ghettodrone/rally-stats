@@ -23,9 +23,6 @@
         </div>
         <div class="month">
           {{ c.label }}
-          @if (c.year) {
-            <span class="year num">{{ c.year }}</span>
-          }
         </div>
         <div class="tip num" role="tooltip" [class]="c.tipAlign">
           <strong>{{ c.fullLabel }}</strong>

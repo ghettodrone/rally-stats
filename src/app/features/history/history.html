@@ -1,6 +1,6 @@
 <div class="rs-page">
   <header class="rs-page-header">
-    <!-- <div>
+    <div>
       <h1>Match history</h1>
       <p class="rs-subtitle num">
         @if (totalCount()) {
@@ -10,7 +10,7 @@
         }
       </p>
     </div>
-    <a pButton routerLink="/matches/new"><i class="pi pi-plus"></i>Add match</a> -->
+    <a pButton routerLink="/matches/new"><i class="pi pi-plus"></i>Add match</a>
   </header>
 
   @if (totalCount() === 0) {
@@ -92,7 +92,7 @@
         </ng-template>
 
         <ng-template #body let-item>
-          <tr class="rs-row-link" tabindex="0">
+          <tr class="rs-row-link" tabindex="0" (click)="open(item)" (keydown.enter)="open(item)">
             <td class="col-date num">{{ item.date | date: 'd MMM y' }}</td>
             <td>
               <span class="opponent">{{ item.opponent }}</span>
